@@ -1,9 +1,7 @@
 import sqlite3
 
 connect = sqlite3.connect("recipe_party.db")
-
 c = connect.cursor()
-
 connect.commit()
 
 
@@ -27,8 +25,8 @@ def newRecipe():
     recipe1 = Recipe(name, mealType, haveMade, cookStyle, ingredients, directions)
     
     createRecipeInDataBase(recipe1)
-    #addIngredientsInDataBase(recipe1)
-    #addDirectionsInDataBase(recipe1)
+    addIngredientsInDataBase(recipe1)
+    addDirectionsInDataBase(recipe1)
 
 def createRecipeInDataBase(recipe: Recipe):
     c.execute("INSERT INTO recipe VALUES(:name, :mealType, :haveMade, :cookStyle)", {"name": recipe.name, "mealType": recipe.mealType, "haveMade": recipe.haveMade, "cookStyle": recipe.cookType})
@@ -147,44 +145,108 @@ def viewRecipesMenu():
             Enter the number of what you would like to do!
             1. View All Recipes
             2. Search Recipe by Name
-            3. Search Recipe by Tag
-            4. Exit""")
+            3. Exit""")
     choice = input()
     if int(choice) == 1:
             viewAllRecipe()
+            return
     elif int(choice) == 2:
             name = input("Enter Recipe Name: ")
             viewRecipeByName(name)
+            return
     elif int(choice) == 3:
-            #viewRecipeByFilter()
-            print("ok")
-    elif int(choice) == 4:
-        return
+            return
     else:
         print("Type in a valid option please!")
-
-def filterMenu():
-    pass
-
-def viewRecipeByFilter(column, item):
-    c.execute("""SELECT name FROM recipe WHERE :column = :item """,{"column": column, "item": item})
-    print(c.fetchall())
 
 def viewAllRecipe():
     c.execute("""SELECT name FROM recipe""")
     print(c.fetchall())
+    recipeDetailsMenu()
 
 def viewRecipeByName(name):
     c.execute("""SELECT name FROM recipe WHERE name = :name""",{"name": name})
     print(c.fetchall())
+    recipeDetailsMenu()
+
+def recipeDetailsMenu():
+    while(True):
+        print("""View Recipe Details?
+              1. Yes
+              2. No""")
+        choice = input()
+        if (int(choice) == 1):
+            name = input("Enter the Recipe's Name: ")
+            recipeDetails(name)
+            return
+        elif (int(choice) == 2):
+            return
+        else:
+            print("Please enter a valid option")
+
+def recipeDetails(name):
+    c.execute("SELECT * FROM recipe WHERE name = :name",{"name": name})
+    print(c.fetchall(), "\n")
+    c.execute("SELECT ingredient FROM ingredients WHERE recipeName = :name", {"name": name})
+    print(c.fetchall(), "\n")
+    c.execute("SELECT direction FROM directions WHERE recipeName = :name", {"name": name})
+    print(c.fetchall(), "\n")
+
 
 def deleteRecipe(name):
-    c.execute("DELETE from recipes WHERE name = :name""",{"name": name})
-    c.execute("DELETE from ingredients WHERE recipeName = :name""",{"name": name})
-    c.execute("DELETE from directions WHERE recipeName = :name""",{"name": name})
+    c.execute("DELETE from recipe WHERE name = :name",{'name': name})
+    c.execute("DELETE from ingredients WHERE recipeName = :name",{'name': name})
+    c.execute("DELETE from directions WHERE recipeName = :name",{'name': name})
 
-def editRecipe():
-    pass
+def editMenu(recipeName):
+    while (True):
+        print("""What would you like to edit
+            1. Recipe Name
+            2. Meal Type
+            3. Have Made
+            4. Cook Type
+            5. Ingredients
+            6. Directions
+            7. Exit    """)
+        choice = input()
+        if int(choice) == 1:
+            name = getRecipeName()
+            editRecipe("recipe", "name", name, recipeName)
+            return
+        elif int(choice) == 2:
+            mealType = getMealType()
+            editRecipe("recipe", "mealType", mealType, recipeName)
+            return
+        elif int(choice) == 3:
+            answer = getHaveMade()
+            editRecipe("recipe", "haveMade", answer, recipeName)
+            return
+        elif int(choice) == 4:
+            cookType = getCookStyle()
+            editRecipe("recipe", "cookType", cookType, recipeName)
+            return
+        elif int(choice) == 5:
+            ingredients = getIngredients()
+            editIngredientsOrDirections(ingredients, recipeName, "ingredients", "ingredient")
+            return
+        elif int(choice) == 6:
+            directions = getDirections()
+            editIngredientsOrDirections(directions, recipeName, "directions", "direction")
+            return
+        elif int(choice) == 7:
+            return
+        else:
+            print("Type in a valid option please!")
+
+def editRecipe(table, column, item, name):
+    with connect:
+        c.execute("""UPDATE recipe SET haveMade = :item 
+              WHERE name = :name""", {'item': item, 'name': name})
+
+def editIngredientsOrDirections(list, name, table, column):
+    for i in list:
+        c.execute("""UPDATE :table SET :column = i
+                  WHERE recipeName :name""", {'table': table, 'column': column, 'name': name})
 
 def mainMenu():
     while (True):
@@ -201,11 +263,11 @@ def mainMenu():
         elif int(choice) == 2:
             viewRecipesMenu()
         elif int(choice) == 3:
-            editRecipe()
+            name = input("Enter Name of Recipe you want to Edit: ")
+            editMenu(name)
         elif int(choice) == 4:
             name = input("Enter Name of Recipe you want to Delete: ")
             deleteRecipe(name)
-            print("Okay")
         elif int(choice) == 5:
             return
         else:

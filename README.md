@@ -7,7 +7,7 @@
 
 {Provide a description of the software that you wrote and how it integrates with a SQL Relational Database. Describe how to use your program.}
 
-{Describe your purpose for writing this software.}
+I wanted to better improve on my Recipe program, so I decided to use SQL to store recipes, filter recipes, and pull up recipes. 
 
 {Provide a link to your YouTube demonstration. It should be a 4-5 minute demo of the software running, a walkthrough of the code, and a view of how created the Relational Database.}
 
@@ -15,27 +15,25 @@
 
 # Relational Database
 
-{Describe the relational database you are using.}
-
-{Describe the structure (tables) of the relational database that you created.}
+There are a total of three tables in my database. One is the recipe table which contains basic information 
+about the recipe. The ingredient table help all the ingredients, and the directions table held the recipe directions.
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+I used both Visual Studio Code and MySQL during making this project.
 
-{Describe the programming language that you used and any libraries.}
+I used python, sqlite3, and regular SQL
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
+This are useful website!
 
-- [Web Site Name](http://url.link.goes.here)
-- [Web Site Name](http://url.link.goes.here)
+- [YouTube: Python SQLite Tutorial](https://www.youtube.com/watch?v=pd-0G0MigUA)
+- [SQLITE3.org](https://docs.python.org/3.8/library/sqlite3.html)
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
 
-- Item 1
-- Item 2
-- Item 3
+- I would like to add a completed filtered to the code.
+- I think it would be great if there were less while loops.
+- I would prefer to make the amounts of the ingredients separate from the food so we could filter by individual food items in the future. 
