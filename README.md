@@ -3,13 +3,9 @@
 
 # Overview
 
-{Important! Do not say in this section that this is college assignment. Talk about what you are trying to accomplish as a software engineer to further your learning.}
 
-{Provide a description of the software that you wrote and how it integrates with a SQL Relational Database. Describe how to use your program.}
+I wanted to better improve on my Recipe program, so I decided to use SQL to store recipes, filter recipes, and pull up recipes. This program will get a recipe information from the user and then save it to a SQL database. The user can then review the information later. 
 
-I wanted to better improve on my Recipe program, so I decided to use SQL to store recipes, filter recipes, and pull up recipes. 
-
-{Provide a link to your YouTube demonstration. It should be a 4-5 minute demo of the software running, a walkthrough of the code, and a view of how created the Relational Database.}
 
 [Software Demo Video](http://youtube.link.goes.here)
 
@@ -36,4 +32,4 @@ This are useful website!
 
 - I would like to add a completed filtered to the code.
 - I think it would be great if there were less while loops.
-- I would prefer to make the amounts of the ingredients separate from the food so we could filter by individual food items in the future. 
+- I would prefer it if the view recipe and stuff was a little more easy to read.
